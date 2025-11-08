@@ -1,0 +1,11 @@
+version: '3.4'
+name: social-mail-db-cloud-replica
+services:
+  postgresdb:
+    image: postgres:alpine
+    container_name: postgres-replica
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=abcd123
+    ports:
+      - 5432:5432
