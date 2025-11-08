@@ -7,5 +7,24 @@ services:
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=abcd123
+      - POSTGRES_INITDB_WALDIR=/db/wal
+    volumes:
+      - db-wal:/db/wal
+      - ./primary.conf:/etc/postgresql/postgresql.conf
     ports:
       - 5432:5432
+  pg-admin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pg-admin
+    ports:
+      - 9090:9090
+    environment:
+      - PGADMIN_LISTEN_PORT=9090
+      - PGADMIN_DISABLE_POSTFIX=True
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_DEFAULT_EMAIL=x@x.com
+      - PGADMIN_DEFAULT_PASSWORD=x
+volumes:
+  db-wal:
+    external: false
